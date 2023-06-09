@@ -1,0 +1,1368 @@
+substitutions:
+  $display_name: Test Board
+  $system_number: (A)
+####  20   ####
+  $device_1: "$system_number Pin 1"
+  $inverted_1: "false"
+  $binary_sensor_1: "true" 
+  $switch_1: "false"   
+
+  $device_2: "$system_number Pin 2"
+  $inverted_2: "false"  
+  $binary_sensor_2: "true" 
+  $switch_2: "false"   
+
+  $device_3: "$system_number Pin 3"
+  $inverted_3: "false"  
+  $binary_sensor_3: "true" 
+  $switch_3: "false"   
+
+  $device_4: "$system_number Pin 4"  
+  $inverted_4: "false"  
+  $binary_sensor_4: "true" 
+  $switch_4: "false"   
+
+  $device_5: "$system_number Pin 5"
+  $inverted_5: "false"
+  $binary_sensor_5: "true" 
+  $switch_5: "false"  
+
+  $device_6: "$system_number Pin 6"
+  $inverted_6: "false"  
+  $binary_sensor_6: "true" 
+  $switch_6: "false"    
+
+  $device_7: "$system_number Pin 7"
+  $inverted_7: "false"  
+  $binary_sensor_7: "true" 
+  $switch_7: "false"    
+
+  $device_8: "$system_number Pin 8" 
+  $inverted_8: "false" 
+  $binary_sensor_8: "true" 
+  $switch_8: "false"       
+
+  $device_9: "$system_number Pin 9"
+  $inverted_9: "false"  
+  $binary_sensor_9: "true" 
+  $switch_9: "false"        
+
+  $device_10: "$system_number Pin 10"
+  $inverted_10: "false"  
+  $binary_sensor_10: "true" 
+  $switch_10: "false"      
+
+  $device_11: "$system_number Pin 11"
+  $inverted_11: "false"  
+  $binary_sensor_11: "true" 
+  $switch_11: "false"    
+
+  $device_12: "$system_number Pin 12"
+  $inverted_12: "false"  
+  $binary_sensor_12: "true" 
+  $switch_12: "false"   
+  
+  $device_13: "$system_number Pin 13"
+  $inverted_13: "false"  
+  $binary_sensor_13: "true" 
+  $switch_13: "false"   
+  
+  $device_14: "$system_number Pin 14"
+  $inverted_14: "false"  
+  $binary_sensor_14: "true" 
+  $switch_14: "false"   
+  
+  $device_15: "$system_number Pin 15"
+  $inverted_15: "false"  
+  $binary_sensor_15: "true" 
+  $switch_15: "false"   
+  
+  $device_16: "$system_number Pin 16"
+  $inverted_16: "false"   
+  $binary_sensor_16: "true" 
+  $switch_16: "false"     
+
+    
+
+
+esphome:
+  name: test-board
+  platform: ESP32
+  board: esp-wrover-kit
+  on_boot:
+       - switch.turn_off: restart_placeholder
+       - delay: 1s
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: ""    
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: ""         
+       - delay: 2s
+       - light.turn_on: ledlight
+       - light.addressable_set:
+              id: ledlight
+              range_from: 0
+              range_to: 2 
+              red: 100%
+              green: 0%
+              blue: 0%
+              color_brightness: 99%                          
+ota:  
+
+
+ethernet:
+  id: eth
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO0_IN
+  phy_addr: 1
+  power_pin: GPIO16
+
+
+
+
+api:
+  reboot_timeout: 0s  
+  password: Dm.376223
+
+i2c:
+  sda: 14
+  scl: 15
+  scan: true      
+ 
+logger:
+
+#spi:
+#  clk_pin: GPIO33
+#  mosi_pin: GPIO17
+
+
+font:
+
+  - file: "_fonts/refsan.ttf"
+    id: my_font_30
+    size: 30
+  - file: "_fonts/refsan.ttf"
+    id: my_font_20
+    size: 20
+  - file: "_fonts/refsan.ttf"
+    id: my_font_13
+    size: 13
+  - file: "_fonts/refsan.ttf"
+    id: my_font_15
+    size: 15    
+  - file: "_fonts/refsan.ttf"
+    id: my_font_10
+    size: 10   
+
+
+  - file: "_fonts/refsan.ttf"
+    id: my_font_30b
+    size: 15
+  - file: "_fonts/refsan.ttf"
+    id: my_font_20b
+    size: 10
+  - file: "_fonts/refsan.ttf"
+    id: my_font_13b
+    size: 10  
+  - file: "_fonts/refsan.ttf"
+    id: my_font_15b
+    size: 15    
+  - file: "_fonts/refsan.ttf"
+    id: my_font_10b
+    size: 15   
+
+display:
+#  - platform: st7789v
+#    model: Adafruit Funhouse 240x240
+#    cs_pin: GPIO5
+#    dc_pin: GPIO4
+#    reset_pin: GPIO2  
+#    backlight_pin: GPIO32  
+#    update_interval: 500ms
+#    eightbitcolor: true
+#    lambda: |-
+#            if (id(system_status).state) {
+#              it.print(70, 10, id(my_font_30), id(my_green), "Online");
+#            }
+#            else {
+#              it.print(70, 10, id(my_font_30), id(my_yellow), "Offline");
+#            }
+#            it.print(45, 40, id(my_font_20), id(my_white), "$display_name");            
+#            if (id(restart_placeholder).state) {
+#              it.print(60, 58, id(my_font_20), id(my_red), "RESTARTING");
+#            }
+#            else {
+#              it.print(20, 100, id(my_font_20), id(my_red), "");
+#            }
+#            it.printf(it.get_width() / 2, 80, id(my_font_20), id(my_blue), TextAlign::CENTER_HORIZONTAL," %s",id(last_name_pressed).state.c_str()); 
+#            it.printf(it.get_width() / 2, 100, id(my_font_20), id(my_blue), TextAlign::CENTER_HORIZONTAL," %s",id(last_state_pressed).state.c_str());             
+#            it.print(32, 132, id(my_font_20), id(my_white), "IP");                       
+#            it.printf(52,132, id(my_font_20), id(my_white), " %s",id(ipaddress).state.c_str());               
+#            it.print(35, 160, id(my_font_15), id(my_green), "Towerclimber87 V1.4");  
+#            it.printf(it.get_width() / 2, 180, id(my_font_13), id(my_green),TextAlign::CENTER_HORIZONTAL, "System Uptime");                
+#            it.printf(2,200, id(my_font_20), id(my_green), " %s",id(uptime_human).state.c_str());   
+#            it.print(90, 0, id(my_font_13), id(my_white), "ESPHOME");               
+                         
+
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    address: 0x3C
+    lambda: |-
+            if (id(system_status).state) {
+              it.print(40, -3, id(my_font_30b), id(my_green), "Online");
+            }
+            else {
+              it.print(40, -5, id(my_font_30b), id(my_yellow), "Offline");
+            }
+
+            it.printf(it.get_width() / 2, 14, id(my_font_20b), id(my_blue), TextAlign::CENTER_HORIZONTAL," %s",id(last_name_pressed).state.c_str()); 
+            it.printf(it.get_width() / 2, 24, id(my_font_20b), id(my_blue), TextAlign::CENTER_HORIZONTAL," %s",id(last_state_pressed).state.c_str());             
+            it.print(0, 34, id(my_font_20b), id(my_white), "IP");                       
+            it.printf(it.get_width() / 2,34, id(my_font_20b), id(my_white), TextAlign::CENTER_HORIZONTAL, " %s",id(ipaddress).state.c_str());                             
+            it.printf(it.get_width() / 2, 46, id(my_font_13b), id(my_green), TextAlign::CENTER_HORIZONTAL, " %s",id(uptime_human).state.c_str());   
+
+text_sensor:
+  - platform: template
+    id: last_state_pressed    
+    name: $display_name State
+
+  - platform: template
+    id: last_name_pressed        
+    name: $display_name Device     
+          
+  - platform: template
+    id: uptime_human     
+    icon: mdi:clock-start
+
+  - platform: template
+    name: "Device IP"
+    id: ipaddress
+    entity_category: diagnostic
+    icon: "mdi:ip-network"
+    lambda: return { id(eth).get_ip_address().str() };
+    update_interval: 10s
+
+sensor:
+  - platform: uptime
+    id: uptime_sensor
+    update_interval: 1s
+    on_raw_value:
+      then:
+        - text_sensor.template.publish:
+            id: uptime_human
+            state: !lambda |-
+              int seconds = round(id(uptime_sensor).raw_state);
+              int days = seconds / (24 * 3600);
+              seconds = seconds % (24 * 3600);
+              int hours = seconds / 3600;
+              seconds = seconds % 3600;
+              int minutes = seconds /  60;
+              seconds = seconds % 60;
+              return (
+                (days ? to_string(days) + "d " : "") +
+                (hours ? to_string(hours) + "h " : "") +
+                (minutes ? to_string(minutes) + "m " : "") +
+                (to_string(seconds) + "s")
+              ).c_str();
+
+light:
+#  - platform: fastled_clockless
+#    chipset: WS2811
+#    id: ledlight
+#    pin: GPIO32
+#    num_leds: 1
+#    rgb_order: GRB  
+#    name: fuck
+  - platform: neopixelbus
+    type: GRB
+    variant: WS2811
+    pin: GPIO32
+    num_leds: 1
+    id: ledlight
+    name: "NeoPixel Light"
+
+
+
+mcp23017:
+  - id: 'mcp23017_hub'
+    address: 0x20
+  - id: 'mcp23017_hub_2'
+    address: 0x21
+  - id: 'mcp23017_hub_3'
+    address: 0x22   
+switch:
+  - platform: restart
+    id: "restart_system"
+
+  - platform: gpio
+    pin: GPIO12
+    name: On Board Relay
+    inverted: no  
+    id: relay
+
+  - platform: template
+    id: "restart_placeholder"    
+    optimistic: true
+    on_turn_on:
+      then:
+          - light.addressable_set:
+              id: ledlight
+              range_from: 0
+              range_to: 1
+              red: 100%
+              green: 100%
+              blue: 0%
+              color_brightness: 100%   
+
+  - platform: gpio
+    name: $device_1
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 0
+      mode:
+        output: $switch_1
+        input: $binary_sensor_1         
+        pullup: $binary_sensor_1       
+    internal: $binary_sensor_1
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_1"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_1"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"        
+      
+  - platform: gpio
+    name: $device_2
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 1
+      mode:
+        output: $switch_2
+        input: $binary_sensor_2  
+        pullup: $binary_sensor_2   
+      inverted: $inverted_2
+    internal: $binary_sensor_2      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_2"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_2"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"           
+      
+  - platform: gpio
+    name: $device_3
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 2
+      mode:
+        output: $switch_3
+        input: $binary_sensor_3         
+        pullup: $binary_sensor_3         
+      inverted: $inverted_3
+    internal: $binary_sensor_3      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_3"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_3"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"        
+      
+  - platform: gpio
+    name: $device_4
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 3
+      mode:
+        output: $switch_4
+        input: $binary_sensor_4         
+        pullup: $binary_sensor_4         
+      inverted: $inverted_4      
+    internal: $binary_sensor_4      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_4"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_4"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"   
+
+
+  - platform: gpio
+    name: $device_5
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 4
+      mode:
+        output: $switch_5
+        input: $binary_sensor_5
+        pullup: $binary_sensor_5
+      inverted: $inverted_5
+    internal: $binary_sensor_5      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_5"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_5"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"      
+          
+  - platform: gpio
+    name: $device_6
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 5
+      mode:
+        output: $switch_6
+        input: $binary_sensor_6
+        pullup: $binary_sensor_6        
+      inverted: $inverted_6
+    internal: $binary_sensor_6      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_6"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_6"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"        
+      
+  - platform: gpio
+    name: $device_7
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 6
+      mode:
+        output: $switch_7
+        input: $binary_sensor_7
+        pullup: $binary_sensor_7     
+      inverted: $inverted_7
+    internal: $binary_sensor_7      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_7"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_7"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"   
+
+  - platform: gpio
+    name: $device_8
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 7
+      mode:
+        output: $switch_8
+        input: $binary_sensor_8
+        pullup: $binary_sensor_8         
+      inverted: $inverted_8
+    internal: $binary_sensor_8      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_8"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_8"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"      
+      
+  - platform: gpio
+    name: $device_9
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 15
+      mode:
+        output: $switch_9
+        input: $binary_sensor_9
+        pullup: $binary_sensor_9        
+      inverted: $inverted_9
+    internal: $binary_sensor_9      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_9"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_9"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"           
+      
+  - platform: gpio
+    name: $device_10
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 14
+      mode:
+        output: $switch_10
+        input: $binary_sensor_10
+        pullup: $binary_sensor_10 
+      inverted: $inverted_10
+    internal: $binary_sensor_10
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_10"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_10"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"         
+      
+  - platform: gpio
+    name: $device_11
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 13
+      mode:
+        output: $switch_11
+        input: $binary_sensor_11
+        pullup: $binary_sensor_11        
+      inverted: $inverted_11
+    internal: $binary_sensor_11      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_11"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_11"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"         
+      
+  - platform: gpio
+    name: $device_12
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 12
+      mode:
+        output: $switch_12
+        input: $binary_sensor_12
+        pullup: $binary_sensor_12          
+      inverted: $inverted_12     
+    internal: $binary_sensor_12       
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_12"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_12"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"   
+
+  - platform: gpio
+    name: $device_13
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 11
+      mode:
+        output: $switch_13
+        input: $binary_sensor_13
+        pullup: $binary_sensor_13        
+      inverted: $inverted_13
+    internal: $binary_sensor_13      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_13"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_13"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"        
+      
+  - platform: gpio
+    name: $device_14
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 10
+      mode:
+        output: $switch_14
+        input: $binary_sensor_14
+        pullup: $binary_sensor_14        
+      inverted: $inverted_14
+    internal: $binary_sensor_14      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_14"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_14"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"       
+      
+  - platform: gpio
+    name: $device_15
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 9
+      mode:
+        output: $switch_15
+        input: $binary_sensor_15
+        pullup: $binary_sensor_15         
+      inverted: $inverted_15
+    internal: $binary_sensor_15      
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_15"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_15"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"     
+      
+  - platform: gpio
+    name: $device_16
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 8
+      mode:
+        output: $switch_16
+        input: $binary_sensor_16
+        pullup: $binary_sensor_16         
+      inverted: $inverted_16    
+    internal: $binary_sensor_16          
+    on_turn_on:
+      then:  
+       - delay: 500ms 
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_16"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch ON"          
+    on_turn_off:
+      then:  
+       - delay: 500ms         
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_16"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "Switch OFF"         
+ 
+
+binary_sensor:
+  - platform: status
+    id: system_status
+    on_state:
+      then:  
+       - if:
+          condition:
+            - binary_sensor.is_on: system_status   
+          then:              
+          - light.addressable_set:
+              id: ledlight
+              range_from: 0
+              range_to: 1
+              red: 0%
+              green: 100%
+              blue: 0%
+              color_brightness: 100%
+       - if:
+          condition:
+            - binary_sensor.is_off: system_status   
+          then:              
+          - light.addressable_set:
+              id: ledlight
+              range_from: 0
+              range_to: 1
+              red: 100%
+              green: 0%
+              blue: 0%
+              color_brightness: 100%              
+
+  - platform: gpio
+    id: button1
+    pin:
+      number: GPIO39
+      mode:
+        input: true       
+      inverted: true
+    on_state:
+      then:  
+       - if:
+          condition:
+            - binary_sensor.is_on: button2   
+          then:            
+            - text_sensor.template.publish:
+                id: last_name_pressed
+                state: ""            
+            - text_sensor.template.publish:
+                id: last_state_pressed
+                state: "" 
+            - switch.turn_on: restart_placeholder
+            - delay: 10s
+            - switch.turn_on: restart_system                   
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "button 1"    
+  - platform: gpio
+    id: button2
+    pin:
+      number: GPIO36
+      mode:
+        input: true
+      inverted: true
+    on_state:        
+      - if:
+          condition:
+            - binary_sensor.is_on: button1        
+          then:            
+            - text_sensor.template.publish:
+                id: last_name_pressed
+                state: ""            
+            - text_sensor.template.publish:
+                id: last_state_pressed
+                state: "" 
+            - switch.turn_on: restart_placeholder
+            - delay: 10s
+            - switch.turn_on: restart_system  
+      - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "button 2"             
+
+  - platform: gpio
+    id: button3
+    pin:
+      number: GPIO35
+      mode:
+        input: true
+      inverted: true
+    on_press:
+      then:    
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "button 3"               
+       - light.toggle: ledlight    
+            
+  - platform: gpio
+    name: $device_1
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 0
+      mode:
+        output: $switch_1
+        input: $binary_sensor_1         
+        pullup: $binary_sensor_1       
+      inverted: $inverted_1
+    internal: $switch_1
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_1"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_1"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"        
+      
+  - platform: gpio
+    name: $device_2
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 1
+      mode:
+        output: $switch_2
+        input: $binary_sensor_2  
+        pullup: $binary_sensor_2   
+      inverted: $inverted_2
+    internal: $switch_2    
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_2"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_2"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"     
+      
+  - platform: gpio
+    name: $device_3
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 2
+      mode:
+        output: $switch_3
+        input: $binary_sensor_3         
+        pullup: $binary_sensor_3         
+      inverted: $inverted_3
+    internal: $switch_3  
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_3"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_3"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"         
+      
+  - platform: gpio
+    name: $device_4
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 3
+      mode:
+        output: $switch_4
+        input: $binary_sensor_4         
+        pullup: $binary_sensor_4         
+      inverted: $inverted_4   
+    internal: $switch_4      
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_4"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_4"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"                
+
+  - platform: gpio
+    name: $device_5
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 4
+      mode:
+        output: $switch_5
+        input: $binary_sensor_5
+        pullup: $binary_sensor_5
+      inverted: $inverted_5
+    internal: $switch_5
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_5"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_5"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"        
+          
+  - platform: gpio
+    name: $device_6
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 5
+      mode:
+        output: $switch_6
+        input: $binary_sensor_6
+        pullup: $binary_sensor_6        
+      inverted: $inverted_6
+    internal: $switch_6 
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_6"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_6"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"           
+      
+  - platform: gpio
+    name: $device_7
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 6
+      mode:
+        output: $switch_7
+        input: $binary_sensor_7
+        pullup: $binary_sensor_7     
+      inverted: $inverted_7
+    internal: $switch_7     
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_7"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_7"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"       
+  - platform: gpio
+    name: $device_8
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 7
+      mode:
+        output: $switch_8
+        input: $binary_sensor_8
+        pullup: $binary_sensor_8         
+      inverted: $inverted_8
+    internal: $switch_8     
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_8"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_8"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"        
+      
+  - platform: gpio
+    name: $device_9
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 15
+      mode:
+        output: $switch_9
+        input: $binary_sensor_9
+        pullup: $binary_sensor_9        
+      inverted: $inverted_9
+    internal: $switch_9    
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_9"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_9"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"               
+      
+  - platform: gpio
+    name: $device_10
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 14
+      mode:
+        output: $switch_10
+        input: $binary_sensor_10
+        pullup: $binary_sensor_10 
+      inverted: $inverted_10
+    internal: $switch_10   
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_10"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_10"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"           
+      
+  - platform: gpio
+    name: $device_11
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 13
+      mode:
+        output: $switch_11
+        input: $binary_sensor_11
+        pullup: $binary_sensor_11        
+      inverted: $inverted_11
+    internal: $switch_11
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_11"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_11"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"          
+      
+  - platform: gpio
+    name: $device_12
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 12
+      mode:
+        output: $switch_12
+        input: $binary_sensor_12
+        pullup: $binary_sensor_12          
+      inverted: $inverted_12    
+    internal: $switch_12   
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_12"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_12"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"       
+
+  - platform: gpio
+    name: $device_13
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 11
+      mode:
+        output: $switch_13
+        input: $binary_sensor_13
+        pullup: $binary_sensor_13        
+      inverted: $inverted_13
+    internal: $switch_13 
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_13"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_13"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"             
+      
+  - platform: gpio
+    name: $device_14
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 10
+      mode:
+        output: $switch_14
+        input: $binary_sensor_14
+        pullup: $binary_sensor_14        
+      inverted: $inverted_14
+    internal: $switch_14  
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_14"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_14"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"         
+      
+  - platform: gpio
+    name: $device_15
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 9
+      mode:
+        output: $switch_15
+        input: $binary_sensor_15
+        pullup: $binary_sensor_15         
+      inverted: $inverted_15
+    internal: $switch_15  
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_15"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_15"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"              
+      
+  - platform: gpio
+    name: $device_16
+    pin:
+      mcp23xxx: mcp23017_hub
+      number: 8
+      mode:
+        output: $switch_16
+        input: $binary_sensor_16
+        pullup: $binary_sensor_16         
+      inverted: $inverted_16      
+    internal: $switch_16   
+    on_press:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_16"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "OPENED"          
+    on_release:
+      then:  
+       - text_sensor.template.publish:
+          id: last_name_pressed
+          state: "$device_16"
+       - text_sensor.template.publish:
+          id: last_state_pressed
+          state: "CLOSED"           
+      
+ 
+
+color:
+  - id: my_red
+    red: 100%
+    green: 0%
+    blue: 0%
+  - id: my_yellow
+    red: 100%
+    green: 100%
+    blue: 0%
+  - id: my_green
+    red: 0%
+    green: 100%
+    blue: 0%
+  - id: my_blue
+    red: 0%
+    green: 0%
+    blue: 100%
+  - id: my_gray
+    red: 50%
+    green: 50%
+    blue: 50%   
+  - id: my_white
+    red: 100%
+    green: 100%
+    blue: 100%              
